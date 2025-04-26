@@ -52,4 +52,102 @@ class Mentee(MenteeBase):
     class Config:
         orm_mode = True
 
-# Add similar schemas for other tables as needed
+class InterestBase(BaseModel):
+    name: str
+    category: str
+
+class InterestCreate(InterestBase):
+    pass
+
+class Interest(InterestBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+class MentorInterestBase(BaseModel):
+    mentor_id: uuid.UUID
+    interest_id: int
+
+class MentorInterestCreate(MentorInterestBase):
+    pass
+
+class MentorInterest(MentorInterestBase):
+    class Config:
+        orm_mode = True
+
+class MentorshipBase(BaseModel):
+    mentor_id: uuid.UUID
+    mentee_id: uuid.UUID
+    status: str
+    started_at: Optional[datetime.datetime]
+    ended_at: Optional[datetime.datetime]
+    ai_notes: Optional[Any]
+
+class MentorshipCreate(MentorshipBase):
+    pass
+
+class Mentorship(MentorshipBase):
+    id: uuid.UUID
+    class Config:
+        orm_mode = True
+
+class SessionBase(BaseModel):
+    mentorship_id: uuid.UUID
+    scheduled_at: datetime.datetime
+    duration_minutes: int
+    notes: Optional[str]
+    ai_summary: Optional[Any]
+
+class SessionCreate(SessionBase):
+    pass
+
+class Session(SessionBase):
+    id: uuid.UUID
+    class Config:
+        orm_mode = True
+
+class ReviewBase(BaseModel):
+    mentorship_id: uuid.UUID
+    reviewer_id: uuid.UUID
+    rating: int
+    comment: Optional[str]
+
+class ReviewCreate(ReviewBase):
+    pass
+
+class Review(ReviewBase):
+    id: uuid.UUID
+    created_at: datetime.datetime
+    class Config:
+        orm_mode = True
+
+class JobBase(BaseModel):
+    title: str
+    description: str
+    company: str
+    posted_by: uuid.UUID
+
+class JobCreate(JobBase):
+    pass
+
+class Job(JobBase):
+    id: int
+    created_at: datetime.datetime
+    class Config:
+        orm_mode = True
+
+class AIMessageBase(BaseModel):
+    mentorship_id: Optional[uuid.UUID]
+    sender_id: Optional[uuid.UUID]
+    message: str
+    message_type: str
+    ai_metadata: Optional[Any]
+
+class AIMessageCreate(AIMessageBase):
+    pass
+
+class AIMessage(AIMessageBase):
+    id: uuid.UUID
+    created_at: datetime.datetime
+    class Config:
+        orm_mode = True
